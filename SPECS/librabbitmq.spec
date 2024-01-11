@@ -10,11 +10,12 @@
 Name:      librabbitmq
 Summary:   Client library for AMQP
 Version:   0.9.0
-Release:   3%{?dist}
+Release:   4%{?dist}
 License:   MIT
 URL:       https://github.com/alanxz/rabbitmq-c
 Source0:   https://github.com/alanxz/rabbitmq-c/archive/v%{version}.tar.gz
 Patch0:    rabbitmq-c-0.9.0-CVE-2019-18609.patch
+Patch1:    rabbitmq-c-CVE-2023-35789.patch
 
 BuildRequires: gcc
 BuildRequires: cmake > 2.8
@@ -57,6 +58,7 @@ amqp-publish        Publish a message on an AMQP server
 %prep
 %setup -q -n rabbitmq-c-%{version}
 %patch0 -p1 -b .CVE-2019-18609
+%patch1 -p1 -b .CVE-2023-35789
 
 # Copy sources to be included in -devel docs.
 cp -pr examples Examples
@@ -106,6 +108,9 @@ make test
 
 
 %changelog
+* Fri Jun 23 2023 Than Ngo <than@redhat.com> - 0.9.0-4
+- Resolves: #2215765, insecure credentials submission
+
 * Tue Sep 29 2020 Than Ngo <than@redhat.com> - 0.9.0-3
 - Resolves: #1857831, rpmdiff
 
