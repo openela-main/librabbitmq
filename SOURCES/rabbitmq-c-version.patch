@@ -1,0 +1,25 @@
+From 2a9ae303f7fa7bc115ecb827c1c3c7c9f84558dd Mon Sep 17 00:00:00 2001
+From: Remi Collet <remi@remirepo.net>
+Date: Thu, 1 Apr 2021 14:48:25 +0200
+Subject: [PATCH] Fix #666 bad PACKAGE_VERSION
+
+---
+ CMakeLists.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index a9a29fd..74364cf 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -322,7 +322,7 @@ set(version_config "${CMAKE_CURRENT_BINARY_DIR}/rabbitmq-c-config-version.cmake"
+ 
+ write_basic_package_version_file(
+     "${version_config}"
+-    VERSION ${RMQ_VERSION}
++    VERSION ${VERSION}
+     COMPATIBILITY AnyNewerVersion)
+ 
+ configure_package_config_file(
+-- 
+2.30.2
+

@@ -1,0 +1,41 @@
+From a8c05cb16afbf852fc584f2c2d31d2f7f0e3a48d Mon Sep 17 00:00:00 2001
+From: Remi Collet <remi@remirepo.net>
+Date: Thu, 1 Apr 2021 11:21:36 +0200
+Subject: [PATCH] add option to install or not the static library
+
+---
+ CMakeLists.txt             | 1 +
+ librabbitmq/CMakeLists.txt | 8 +++++---
+ 2 files changed, 6 insertions(+), 3 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index a9a29fdd..a7cf8f2c 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -245,6 +245,7 @@ endif()
+ 
+ option(BUILD_SHARED_LIBS "Build rabbitmq-c as a shared library" ON)
+ option(BUILD_STATIC_LIBS "Build rabbitmq-c as a static library" ON)
++option(INSTALL_STATIC_LIBS "Install rabbitmq-c static library" ON)
+ 
+ option(BUILD_EXAMPLES "Build Examples" ON)
+ option(BUILD_TOOLS "Build Tools (requires POPT Library)" ${POPT_FOUND})
+diff --git a/librabbitmq/CMakeLists.txt b/librabbitmq/CMakeLists.txt
+index d8dcd262..72b4a875 100644
+--- a/librabbitmq/CMakeLists.txt
++++ b/librabbitmq/CMakeLists.txt
+@@ -154,9 +154,11 @@ if (BUILD_STATIC_LIBS)
+         set_target_properties(rabbitmq-static PROPERTIES VERSION ${RMQ_VERSION} SOVERSION ${RMQ_SOVERSION} OUTPUT_NAME rabbitmq)
+     endif (WIN32)
+ 
+-    install(TARGETS rabbitmq-static EXPORT "${targets_export_name}"
+-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+-        )
++    if (INSTALL_STATIC_LIBS)
++        install(TARGETS rabbitmq-static EXPORT "${targets_export_name}"
++            ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
++            )
++    endif (INSTALL_STATIC_LIBS)
+ 
+     if (NOT DEFINED RMQ_LIBRARY_TARGET)
+         set(RMQ_LIBRARY_TARGET rabbitmq-static)
