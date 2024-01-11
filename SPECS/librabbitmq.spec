@@ -19,7 +19,7 @@
 Name:      %{libname}
 Summary:   Client library for AMQP
 Version:   0.11.0
-Release:   5%{?dist}
+Release:   7%{?dist}
 License:   MIT
 URL:       https://github.com/alanxz/rabbitmq-c
 
@@ -29,6 +29,8 @@ Source0:   https://github.com/%{gh_owner}/%{gh_project}/archive/%{gh_commit}/%{g
 Patch0:    %{gh_project}-static.patch
 # fix version for cmake module
 Patch1:    %{gh_project}-version.patch
+# CVE-2023-35789
+Patch2:     rabbitmq-c-CVE-2023-35789.patch
 
 BuildRequires: gcc
 BuildRequires: cmake > 2.8
@@ -56,7 +58,7 @@ for %{name}.
 
 %package tools
 Summary:    Example tools built using the librabbitmq package
-Requires:   %{name}%{?_isa} = %{version}
+Requires:   %{name}%{?_isa} = %{version}-%{release}
 
 %description tools
 This package contains example tools built using %{name}.
@@ -71,8 +73,9 @@ amqp-publish        Publish a message on an AMQP server
 
 %prep
 %setup -q -n %{gh_project}-%{gh_commit}
-%patch0 -p1
-%patch1 -p1
+%patch -P0 -p1
+%patch -P1 -p1
+%patch -P2 -p1
 
 # Copy sources to be included in -devel docs.
 cp -pr examples Examples
@@ -146,6 +149,14 @@ make test
 
 
 %changelog
+* Fri Jun 23 2023 Than Ngo <than@redhat.com> - 0.11.0-7
+- add missing gating.yaml
+- fix rpminspect issue
+Related: #2215766
+
+* Fri Jun 23 2023 Than Ngo <than@redhat.com> - 0.11.0-6
+- Resolves: #2215766, insecure credentials submission
+
 * Mon Aug 09 2021 Mohan Boddu <mboddu@redhat.com> - 0.11.0-5
 - Rebuilt for IMA sigs, glibc 2.34, aarch64 flags
   Related: rhbz#1991688
