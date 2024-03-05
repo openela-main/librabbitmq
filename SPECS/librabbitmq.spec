@@ -10,7 +10,7 @@
 Name:      librabbitmq
 Summary:   Client library for AMQP
 Version:   0.9.0
-Release:   4%{?dist}
+Release:   5%{?dist}
 License:   MIT
 URL:       https://github.com/alanxz/rabbitmq-c
 Source0:   https://github.com/alanxz/rabbitmq-c/archive/v%{version}.tar.gz
@@ -108,6 +108,9 @@ make test
 
 
 %changelog
+* Tue Nov 28 2023 Than Ngo <than@redhat.com> - 0.9.0-5
+- Resolves: RHEL-17851, rebuild for adding librabbitmq-tools
+
 * Fri Jun 23 2023 Than Ngo <than@redhat.com> - 0.9.0-4
 - Resolves: #2215765, insecure credentials submission
 
