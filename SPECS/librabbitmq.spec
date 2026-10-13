@@ -19,7 +19,7 @@
 Name:      %{libname}
 Summary:   Client library for AMQP
 Version:   0.11.0
-Release:   7%{?dist}
+Release:   7%{?dist}.1
 License:   MIT
 URL:       https://github.com/alanxz/rabbitmq-c
 
@@ -31,6 +31,9 @@ Patch0:    %{gh_project}-static.patch
 Patch1:    %{gh_project}-version.patch
 # CVE-2023-35789
 Patch2:     rabbitmq-c-CVE-2023-35789.patch
+# CVE-2026-44236
+# https://github.com/alanxz/rabbitmq-c/commit/4777d0b5c58cb02966a04a85832436bd66ed5d1f
+Patch3:     rabbitmq-c-CVE-2026-44236.patch
 
 BuildRequires: gcc
 BuildRequires: cmake > 2.8
@@ -76,6 +79,7 @@ amqp-publish        Publish a message on an AMQP server
 %patch -P0 -p1
 %patch -P1 -p1
 %patch -P2 -p1
+%patch -P3 -p1
 
 # Copy sources to be included in -devel docs.
 cp -pr examples Examples
@@ -149,6 +153,11 @@ make test
 
 
 %changelog
+* Wed Sep 23 2026 RHEL Packaging Agent <redhat-ymir-agent@redhat.com> - 0.11.0-7.1
+- CVE-2026-44236 librabbitmq: rabbitmq-c: Heap buffer overflow leading to denial of service [rhel-8.10.z]
+  to denial of service [rhel-8.10.z]
+Resolves: RHEL-266750
+
 * Fri Jun 23 2023 Than Ngo <than@redhat.com> - 0.11.0-7
 - add missing gating.yaml
 - fix rpminspect issue
