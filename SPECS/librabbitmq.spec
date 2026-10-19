@@ -19,11 +19,15 @@
 Name:      %{libname}
 Summary:   Client library for AMQP
 Version:   0.14.0
-Release:   3%{?dist}
+Release:   3%{?dist}.1
 License:   MIT
 URL:       https://github.com/alanxz/rabbitmq-c
 
 Source0:   https://github.com/%{gh_owner}/%{gh_project}/archive/%{gh_commit}/%{gh_project}-%{version}-%{gh_short}.tar.gz
+
+# https://issues.redhat.com/browse/RHEL-266736
+# https://github.com/alanxz/rabbitmq-c/commit/4777d0b5c58cb02966a04a85832436bd66ed5d1f
+Patch0:    librabbitmq-0.14.0-CVE-2026-44236.patch
 
 BuildRequires: gcc
 BuildRequires: cmake >= 3.12
@@ -66,6 +70,7 @@ amqp-publish        Publish a message on an AMQP server
 
 %prep
 %setup -q -n %{gh_project}-%{gh_commit}
+%patch -P0 -p1
 
 # Copy sources to be included in -devel docs.
 cp -pr examples Examples
@@ -145,6 +150,11 @@ make test
 
 
 %changelog
+* Wed Sep 23 2026 RHEL Packaging Agent <redhat-ymir-agent@redhat.com> - 0.14.0-3.1
+- CVE-2026-44236 librabbitmq: rabbitmq-c: Heap buffer overflow leading to denial of service [rhel-8.10.z]
+  denial of service [rhel-8.10.z]
+  Resolves: RHEL-266736
+
 * Tue Oct 29 2024 Troy Dawson <tdawson@redhat.com> - 0.14.0-3
 - Bump release for October 2024 mass rebuild:
   Resolves: RHEL-64018
