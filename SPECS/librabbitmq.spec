@@ -31,9 +31,8 @@ Patch0:    %{gh_project}-static.patch
 Patch1:    %{gh_project}-version.patch
 # CVE-2023-35789
 Patch2:     rabbitmq-c-CVE-2023-35789.patch
-# CVE-2026-44236
-# https://github.com/alanxz/rabbitmq-c/commit/4777d0b5c58cb02966a04a85832436bd66ed5d1f
-Patch3:     rabbitmq-c-CVE-2026-44236.patch
+# CVE-2026-44236 Heap buffer overflow leading to denial of service
+Patch3: rabbitmq-c-CVE-2026-44236.patch
 
 BuildRequires: gcc
 BuildRequires: cmake > 2.8
@@ -153,10 +152,8 @@ make test
 
 
 %changelog
-* Wed Sep 23 2026 RHEL Packaging Agent <redhat-ymir-agent@redhat.com> - 0.11.0-7.1
-- CVE-2026-44236 librabbitmq: rabbitmq-c: Heap buffer overflow leading to denial of service [rhel-8.10.z]
-  to denial of service [rhel-8.10.z]
-Resolves: RHEL-266750
+* Mon Oct 05 2026 Than Ngo <than@redhat.com> - 0.11.0-7.1
+- Resolves: RHEL-266748 Heap buffer overflow leading to denial of service
 
 * Fri Jun 23 2023 Than Ngo <than@redhat.com> - 0.11.0-7
 - add missing gating.yaml
