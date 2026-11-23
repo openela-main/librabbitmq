@@ -19,13 +19,14 @@
 Name:      %{libname}
 Summary:   Client library for AMQP
 Version:   0.14.0
-Release:   3%{?dist}.1
+Release:   3%{?dist}.2
 License:   MIT
 URL:       https://github.com/alanxz/rabbitmq-c
 
 Source0:   https://github.com/%{gh_owner}/%{gh_project}/archive/%{gh_commit}/%{gh_project}-%{version}-%{gh_short}.tar.gz
 # CVE-2026-44236 Heap buffer overflow leading to denial of service
 Patch1:     rabbitmq-c-CVE-2026-44236.patch
+Patch2:     rabbitmq-c-CVE-2026-61547.patch
 
 BuildRequires: gcc
 BuildRequires: cmake >= 3.12
@@ -69,6 +70,7 @@ amqp-publish        Publish a message on an AMQP server
 %prep
 %setup -q -n %{gh_project}-%{gh_commit}
 %patch -P1 -p1
+%patch -P2 -p1
 
 # Copy sources to be included in -devel docs.
 cp -pr examples Examples
@@ -148,6 +150,10 @@ make test
 
 
 %changelog
+* Tue Nov 17 2026 Than Ngo <than@redhat.com> - 0.14.0-3.2
+- CVE-2026-61547, Heap Buffer Overflow in amqp_send_frame() When Serializing Oversized AMQP_FRAME_BODY
+- Resolves: RHEL-306410
+
 * Mon Oct 05 2026 Than Ngo <than@redhat.com> - 0.14.0-3.1
 - Resolves: RHEL-266738, CVE-2026-44236 Heap buffer overflow leading to denial of service
 
