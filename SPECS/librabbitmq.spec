@@ -10,13 +10,15 @@
 Name:      librabbitmq
 Summary:   Client library for AMQP
 Version:   0.9.0
-Release:   6%{?dist}
+Release:   6%{?dist}.1
 License:   MIT
 URL:       https://github.com/alanxz/rabbitmq-c
 Source0:   https://github.com/alanxz/rabbitmq-c/archive/v%{version}.tar.gz
 Patch0:    rabbitmq-c-0.9.0-CVE-2019-18609.patch
 Patch1:    rabbitmq-c-CVE-2023-35789.patch
 Patch2:    rabbitmq-c-CVE-2026-44236.patch
+# CVE-2026-61547, Heap Buffer Overflow in amqp_send_frame() When Serializing Oversized AMQP_FRAME_BODY
+Patch3:    rabbitmq-c-CVE-2026-61547.patch
 
 BuildRequires: gcc
 BuildRequires: cmake > 2.8
@@ -61,6 +63,7 @@ amqp-publish        Publish a message on an AMQP server
 %patch0 -p1 -b .CVE-2019-18609
 %patch1 -p1 -b .CVE-2023-35789
 %patch2 -p1 -b .CVE-2026-44236
+%patch3 -p1 -b .CVE-2026-61547
 
 # Copy sources to be included in -devel docs.
 cp -pr examples Examples
@@ -110,6 +113,10 @@ make test
 
 
 %changelog
+* Thu Nov 19 2026 Than Ngo <than@redhat.com> - 0.9.0-6.1
+- Backport fix CVE-2026-61547, Heap Buffer Overflow in amqp_send_frame() When Serializing Oversized AMQP_FRAME_BODY
+- Resolves: RHEL-306412
+
 * Tue Sep 22 2026 RHEL Packaging Agent <redhat-ymir-agent@redhat.com> - 0.9.0-6
 - CVE-2026-44236 librabbitmq: rabbitmq-c: Heap buffer overflow leading to denial of service [rhel-8.10.z]
   leading to denial of service [rhel-8.10.z]
